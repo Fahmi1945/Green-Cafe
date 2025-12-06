@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart'; // Import Google Fonts
-import 'pages/MainWrapper.dart'; // Import file wrapper
+import 'package:projek_flutter/pages/auth/login_page.dart';
 
 void main() {
   runApp(const MyApp());
 }
 
-// --- Kita buat palet warna kustom Anda ---
-// Ini adalah warna hijau utama Anda (#1BAE76)
 const MaterialColor kPrimaryGreen = MaterialColor(0xFF1BAE76, <int, Color>{
   50: Color(0xFFE4F7EF),
   100: Color(0xFFBBEBDA),
@@ -119,7 +117,7 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      home: const MainWrapper(),
+      home: const LoginPage(),
     );
   }
 }
