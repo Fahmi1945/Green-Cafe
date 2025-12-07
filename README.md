@@ -1,77 +1,90 @@
-☕ Green Cafe App
+# ☕ Green Cafe App
 
-Green Cafe adalah aplikasi mobile pemesanan kopi modern yang dibangun menggunakan Flutter. Aplikasi ini dirancang untuk memberikan pengalaman pengguna yang mulus dalam menjelajahi menu, mengelola pesanan, dan menyimpan item favorit.
+Green Cafe adalah aplikasi mobile pemesanan kopi modern yang dibangun menggunakan **Flutter**. Aplikasi ini dirancang untuk memberikan pengalaman pengguna yang mulus dalam menjelajahi menu, mengelola pesanan, dan menyimpan item favorit.
 
-Proyek ini mengimplementasikan konsep RESTful API menggunakan MockAPI untuk manajemen data pengguna dan produk, serta menerapkan arsitektur kode yang bersih (clean code) dengan pemisahan logika Admin dan Customer.
+Proyek ini mengimplementasikan konsep **RESTful API** menggunakan **MockAPI** untuk manajemen data pengguna dan produk, serta menerapkan **clean code architecture** dengan pemisahan logika **Admin** dan **Customer**.
 
-📱 Fitur Utama
+---
 
-Aplikasi ini memiliki dua peran pengguna (role) dengan fitur yang berbeda:
+## 📱 Fitur Utama
 
-🌟 Fitur Umum
+Aplikasi ini memiliki dua peran pengguna (*role*) dengan fitur yang berbeda.
 
-Onboarding Screen: Layar sambutan interaktif saat pertama kali membuka aplikasi.
+### 🌟 Fitur Umum
 
-Autentikasi (Login & Register):
+- **Onboarding Screen**  
+  Layar sambutan interaktif saat pertama kali membuka aplikasi.
 
-Login dengan validasi email & password.
+- **Autentikasi (Login & Register)**
+  - Login dengan validasi email & password.
+  - Register akun baru dengan toggle visibility password.
+  - Pemisahan otomatis antara halaman Admin dan Customer berdasarkan role yang diterima dari API.
 
-Register akun baru dengan fitur toggle visibility password.
+---
 
-Pemisahan otomatis antara halaman Admin dan Customer berdasarkan role.
+### 👤 Fitur Customer (Pelanggan)
 
-👤 Fitur Customer (Pelanggan)
+- **Dashboard**
+  - Menampilkan banner promo.
+  - Menampilkan kategori untuk filter.
+  - Menampilkan daftar produk dalam bentuk grid.
 
-Dashboard: Menampilkan banner promo, kategori (filter), dan daftar produk grid.
+- **Pencarian (Search)**
+  - Mencari kopi berdasarkan nama secara real-time dari API.
 
-Pencarian (Search): Mencari kopi berdasarkan nama secara real-time dari API.
+- **Detail Produk**
+  - Menampilkan gambar besar, deskripsi, dan harga produk.
 
-Detail Produk: Melihat gambar besar, deskripsi, dan harga.
+- **Keranjang (Cart)**
+  - Menambahkan item ke keranjang.
+  - Melihat ringkasan belanja sebelum checkout.
 
-Keranjang (Cart): Menambahkan item ke keranjang dan melihat ringkasan belanja.
+- **Checkout & Struk**
+  - Simulasi proses pembayaran.
+  - Menampilkan struk digital setelah pesanan berhasil.
 
-Checkout & Struk: Simulasi pembayaran dan menampilkan struk digital.
+- **Favorit (Wishlist)**
+  - Menandai produk kesukaan untuk disimpan di daftar favorit.
 
-Favorit (Wishlist): Menandai produk kesukaan.
+- **Riwayat Pesanan**
+  - Melihat daftar pesanan yang pernah dibuat (disimpan secara lokal).
 
-Riwayat Pesanan: Melihat daftar pesanan yang pernah dibuat (lokal).
+- **Profil**
+  - Melihat data diri pengguna yang sedang login.
 
-Profil: Melihat data diri pengguna yang sedang login.
+---
 
-🛠 Fitur Admin
+### 🛠 Fitur Admin
 
-Admin Dashboard: Melihat seluruh daftar produk yang tersedia di server.
+- **Admin Dashboard**
+  - Melihat seluruh daftar produk kopi yang tersedia di server.
 
-CRUD Produk:
+- **CRUD Produk**
+  - **Create**: Menambah menu kopi baru.
+  - **Read**: Melihat daftar menu kopi.
+  - **Update**: Mengedit data menu (harga, nama, gambar, deskripsi).
+  - **Delete**: Menghapus menu dari server (MockAPI).
 
-Create: Menambah menu kopi baru.
+---
 
-Read: Melihat daftar menu.
+## 🧰 Teknologi yang Digunakan
 
-Update: Mengedit data menu (harga, nama, gambar, deskripsi).
+- **Framework**: Flutter (Dart)
+- **Backend/API**: MockAPI.io (format data JSON)
+- **State Management**: `setState` (local & lifted state)
+- **Networking**: `http` package
+- **Fonts**: Google Fonts (Sora & Poppins)
+- **Icons**: Material Icons & Cupertino Icons
 
-Delete: Menghapus menu dari server.
+---
 
-🛠 Teknologi yang Digunakan
+## 📂 Struktur Proyek
 
-Framework: Flutter (Dart)
+Struktur folder disusun untuk memisahkan logic Admin dan Customer secara rapi.
 
-Backend/API: MockAPI.io (Data JSON)
-
-State Management: setState (Lokal & Lifted State)
-
-Networking: http package
-
-Fonts: Google Fonts (Sora & Poppins)
-
-Icons: Material Icons & Cupertino Icons
-
-📂 Struktur Proyek
-
-Proyek ini disusun dengan struktur yang rapi untuk memisahkan logic Admin dan Customer.
-
+```bash
 lib/
-├── models/                  # Model data (Penerjemah JSON)
+├── models/                  # Model data (penerjemah JSON)
 │   ├── coffee_model.dart
 │   ├── user_model.dart
 │   └── order_model.dart
@@ -103,88 +116,4 @@ lib/
 │   └── intro/               # Halaman Intro
 │       └── onboarding_page.dart
 │
-└── main.dart                # Entry point & Tema Global
-
-
-
-🚀 Cara Menjalankan (Installation)
-
-Clone atau Download repositori ini.
-
-Buka terminal di dalam folder proyek.
-
-Jalankan perintah berikut untuk mengunduh dependencies:
-
-flutter pub get
-
-
-
-Pastikan Anda memiliki koneksi internet (karena aplikasi menggunakan API & Google Fonts).
-
-Jalankan aplikasi di Emulator atau Device fisik:
-
-flutter run
-
-
-
-🔗 Endpoint API
-
-Aplikasi ini menggunakan MockAPI dengan endpoint berikut (Contoh URL):
-
-Base URL: https://68fe947f7c700772bb1408b8.mockapi.io/
-
-Resources:
-
-/coffee: Data produk kopi (Nama, Harga, Gambar, Deskripsi, Kategori).
-
-/user: Data pengguna (Email, Password, Nama, Role).
-
-📸 Screenshots
-
-Onboarding
-
-Login
-
-Home (Customer)
-
-Detail Produk
-
-
-
-
-
-
-
-
-
-Keranjang
-
-Checkout
-
-Struk Sukses
-
-Admin Dashboard
-
-
-
-
-
-
-
-
-
-👨‍💻 Author
-
-Dikembangkan sebagai tugas Mobile Programming.
-
-Nama: 
-
-$$Fahmi Zidan$$
-
-NIM: 
-
-$$230605110185$$
-
-Kelas: 
-
-$$Mobile Programming D$$
+└── main.dart                # Entry point & tema global
