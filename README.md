@@ -1,119 +1,247 @@
-# ☕ Green Cafe App
+# ☕ Green Cafe - Coffee Shop Mobile App
 
-Green Cafe adalah aplikasi mobile pemesanan kopi modern yang dibangun menggunakan **Flutter**. Aplikasi ini dirancang untuk memberikan pengalaman pengguna yang mulus dalam menjelajahi menu, mengelola pesanan, dan menyimpan item favorit.
+![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
 
-Proyek ini mengimplementasikan konsep **RESTful API** menggunakan **MockAPI** untuk manajemen data pengguna dan produk, serta menerapkan **clean code architecture** dengan pemisahan logika **Admin** dan **Customer**.
+Green Cafe adalah aplikasi mobile untuk pemesanan kopi yang dibangun menggunakan Flutter. Aplikasi ini menyediakan pengalaman pengguna yang seamless untuk menjelajahi menu, menambahkan ke favorit, dan melakukan pemesanan kopi dengan mudah.
 
----
+## 📱 Screenshots
 
-## 📱 Fitur Utama
+<div align="center">
+  <img src="assets/screenshoots/login.png" alt="Login Screen" width="250"/>
+  <img src="assets/screenshoots/home.png" alt="Home Screen" width="250"/>
+</div>
 
-Aplikasi ini memiliki dua peran pengguna (*role*) dengan fitur yang berbeda.
+## ✨ Fitur
 
-### 🌟 Fitur Umum
+### 👤 Untuk Customer
 
-- **Onboarding Screen**  
-  Layar sambutan interaktif saat pertama kali membuka aplikasi.
+- **Onboarding** - Tampilan awal yang menarik untuk pengguna baru
+- **Authentication** - Login dan Register dengan validasi
+- **Home** - Menampilkan daftar menu kopi dengan filter kategori
+- **Search** - Pencarian menu dengan debounce untuk performa optimal
+- **Detail Produk** - Informasi lengkap tentang produk kopi
+- **Favorit** - Simpan kopi favorit Anda
+- **Keranjang** - Kelola pesanan sebelum checkout
+- **Checkout** - Proses pemesanan yang mudah
+- **Profil** - Lihat informasi akun pengguna
 
-- **Autentikasi (Login & Register)**
-  - Login dengan validasi email & password.
-  - Register akun baru dengan toggle visibility password.
-  - Pemisahan otomatis antara halaman Admin dan Customer berdasarkan role yang diterima dari API.
+### 👨‍💼 Untuk Admin
 
----
+- **Dashboard Admin** - Kelola semua produk kopi
+- **CRUD Produk** - Tambah, Edit, dan Hapus produk
+- **Manajemen Menu** - Update informasi produk secara real-time
 
-### 👤 Fitur Customer (Pelanggan)
+## 🛠️ Teknologi
 
-- **Dashboard**
-  - Menampilkan banner promo.
-  - Menampilkan kategori untuk filter.
-  - Menampilkan daftar produk dalam bentuk grid.
+- **Framework**: Flutter 3.9.0
+- **Bahasa**: Dart
+- **State Management**: StatefulWidget (Provider Pattern)
+- **HTTP Client**: http package
+- **Typography**: Google Fonts (Sora & Poppins)
+- **Backend**: MockAPI.io
 
-- **Pencarian (Search)**
-  - Mencari kopi berdasarkan nama secara real-time dari API.
+## 📦 Dependencies
 
-- **Detail Produk**
-  - Menampilkan gambar besar, deskripsi, dan harga produk.
+```yaml
+dependencies:
+  flutter:
+    sdk: flutter
+  http: ^1.2.1
+  google_fonts: ^6.2.1
+  cupertino_icons: ^1.0.8
+```
 
-- **Keranjang (Cart)**
-  - Menambahkan item ke keranjang.
-  - Melihat ringkasan belanja sebelum checkout.
+## 🚀 Instalasi
 
-- **Checkout & Struk**
-  - Simulasi proses pembayaran.
-  - Menampilkan struk digital setelah pesanan berhasil.
+### Prasyarat
 
-- **Favorit (Wishlist)**
-  - Menandai produk kesukaan untuk disimpan di daftar favorit.
+- Flutter SDK (3.9.0 atau lebih tinggi)
+- Android Studio / VS Code
+- Emulator atau Device fisik
 
-- **Riwayat Pesanan**
-  - Melihat daftar pesanan yang pernah dibuat (disimpan secara lokal).
+### Langkah-langkah
 
-- **Profil**
-  - Melihat data diri pengguna yang sedang login.
+1. **Clone repository**
 
----
+   ```bash
+   git clone https://github.com/Fahmi1945/Green-Cafe.git
+   cd Green-Cafe
+   ```
 
-### 🛠 Fitur Admin
+2. **Install dependencies**
 
-- **Admin Dashboard**
-  - Melihat seluruh daftar produk kopi yang tersedia di server.
+   ```bash
+   flutter pub get
+   ```
 
-- **CRUD Produk**
-  - **Create**: Menambah menu kopi baru.
-  - **Read**: Melihat daftar menu kopi.
-  - **Update**: Mengedit data menu (harga, nama, gambar, deskripsi).
-  - **Delete**: Menghapus menu dari server (MockAPI).
+3. **Jalankan aplikasi**
+   ```bash
+   flutter run
+   ```
 
----
+## 🔧 Konfigurasi API
 
-## 🧰 Teknologi yang Digunakan
+Aplikasi ini menggunakan MockAPI untuk backend. URL API sudah dikonfigurasi di:
 
-- **Framework**: Flutter (Dart)
-- **Backend/API**: MockAPI.io (format data JSON)
-- **State Management**: `setState` (local & lifted state)
-- **Networking**: `http` package
-- **Fonts**: Google Fonts (Sora & Poppins)
-- **Icons**: Material Icons & Cupertino Icons
+- **Auth Service**: `lib/services/auth_service.dart`
+- **Coffee Service**: `lib/services/coffee_service.dart`
+- **Admin Dashboard**: `lib/pages/admin/admin_dashboard.dart`
 
----
+Endpoint API:
 
-## 📂 Struktur Proyek
+```dart
+// User Authentication
+https://68fe947f7c700772bb1408b8.mockapi.io/user
 
-Struktur folder disusun untuk memisahkan logic Admin dan Customer secara rapi.
+// Coffee Products
+https://68fe947f7c700772bb1408b8.mockapi.io/coffee
+```
 
-```bash
+## 📂 Struktur Projekt
+
+```
 lib/
-├── models/                  # Model data (penerjemah JSON)
+├── main.dart                 # Entry point aplikasi
+├── models/                   # Data models
 │   ├── coffee_model.dart
-│   ├── user_model.dart
-│   └── order_model.dart
-│
-├── services/                # Logika komunikasi ke API
+│   └── user_model.dart
+├── services/                 # API services
 │   ├── auth_service.dart
 │   └── coffee_service.dart
-│
-├── pages/
-│   ├── admin/               # Halaman khusus Admin
-│   │   ├── admin_dashboard.dart
-│   │   └── add_edit_product.dart
-│   │
-│   ├── auth/                # Halaman Autentikasi
+├── pages/                    # UI Screens
+│   ├── intro/
+│   │   └── onboarding_page.dart
+│   ├── auth/
 │   │   ├── login_page.dart
 │   │   └── register_page.dart
-│   │
-│   ├── customer/            # Halaman khusus Customer
+│   ├── customer/
 │   │   ├── main_wrapper.dart
 │   │   ├── home_page.dart
 │   │   ├── detail_page.dart
 │   │   ├── cart_page.dart
 │   │   ├── favorite_page.dart
-│   │   ├── profile_page.dart
 │   │   ├── checkout_page.dart
 │   │   ├── order_success_page.dart
-│   │   └── order_history_page.dart
-│   │
-│   └── intro/               # Halaman Intro
-│       └── onboarding_page.dart
-│
-└── main.dart                # Entry point & tema global
+│   │   └── profile_page.dart
+│   └── admin/
+│       ├── admin_dashboard.dart
+│       └── add_edit_product.dart
+└── widget/                   # Reusable widgets
+    └── product_card.dart
+```
+
+## 🎨 Design System
+
+### Color Palette
+
+- **Primary Green**: `#1BAE76`
+- **Scaffold Background**: `#EFEFEF`
+- **White**: `#FFFFFF`
+- **Grey**: `#808080`
+- **Black**: `#000000`
+
+### Typography
+
+- **Headings**: Sora (Bold & Semi-Bold)
+- **Body Text**: Poppins (Regular & Medium)
+
+## 👥 User Roles
+
+### Customer
+
+- Email: `customer@test.com`
+- Password: `123456`
+
+### Admin
+
+- Email: `admin@test.com`
+- Password: `admin123`
+
+## 🔐 Fitur Keamanan
+
+- Password toggle visibility
+- Form validation
+- Email uniqueness check
+- Role-based access control
+
+## 📱 Responsive Design
+
+Aplikasi ini didesain untuk berbagai ukuran layar:
+
+- Smartphone (Portrait & Landscape)
+- Tablet
+- Foldable devices
+
+## 🧪 Testing
+
+```bash
+# Run tests
+flutter test
+
+# Run tests with coverage
+flutter test --coverage
+```
+
+## 📝 API Structure
+
+### User Model
+
+```json
+{
+  "id": "1",
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "hashed_password",
+  "role": "customer"
+}
+```
+
+### Coffee Model
+
+```json
+{
+  "id": "1",
+  "name": "Caffe Latte",
+  "price": "25000",
+  "imageUrl": "https://example.com/image.jpg",
+  "description": "Espresso dengan susu steamed yang creamy",
+  "category": "Coffee"
+}
+```
+
+## 🤝 Kontribusi
+
+Contributions are welcome! Silakan buat pull request atau buka issue untuk saran dan perbaikan.
+
+1. Fork repository
+2. Buat branch fitur (`git checkout -b feature/AmazingFeature`)
+3. Commit perubahan (`git commit -m 'Add some AmazingFeature'`)
+4. Push ke branch (`git push origin feature/AmazingFeature`)
+5. Buat Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+## 👨‍💻 Developer
+
+**Fahmi**
+
+- GitHub: [@Fahmi1945](https://github.com/Fahmi1945)
+- Repository: [Green-Cafe](https://github.com/Fahmi1945/Green-Cafe)
+
+## 🙏 Acknowledgments
+
+- Flutter Team untuk framework yang luar biasa
+- MockAPI.io untuk REST API gratis
+- Unsplash untuk stock images
+- Google Fonts untuk typography
+
+## 📞 Support
+
+Jika Anda memiliki pertanyaan atau butuh bantuan, silakan buka issue di GitHub repository.
+
+---
+
+⭐ Jangan lupa untuk memberikan star jika project ini membantu Anda!
