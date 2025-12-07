@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../../models/coffee_model.dart';
 import '../../services/coffee_service.dart';
 import 'detail_page.dart';
@@ -10,7 +11,6 @@ const Color kScaffoldBackground = Color(0xFFEFEFEF);
 const Color kWhiteColor = Color(0xFFFFFFFF);
 
 class HomePage extends StatefulWidget {
-  // Terima Data & Fungsi dari MainWrapper
   final List<Coffee> favoriteItems;
   final Function(Coffee) onAddToCart;
   final Function(Coffee) onToggleFavorite;
@@ -32,27 +32,25 @@ class _HomePageState extends State<HomePage> {
   final TextEditingController _searchController = TextEditingController();
   Timer? _debounce;
 
+  String _selectedFilter = "Coffee";
+
   @override
   void initState() {
     super.initState();
     _loadData();
   }
 
-  void _loadData({String? query}) {
-    setState(() {
-      _coffeeData = _coffeeService.getCoffees(query: query);
-    });
-  }
-
-  // ... (Kode _onSearchChanged, dispose, _buildHeaderContent, _buildBanner, _buildFilterChips SAMA SEPERTI SEBELUMNYA) ...
-  // AGAR SINGKAT, SAYA HANYA TULIS BAGIAN YANG BERUBAH DI BAWAH INI
-  // ... (Gunakan kode lama Anda untuk widget helper di atas) ...
-
   @override
   void dispose() {
     _searchController.dispose();
     _debounce?.cancel();
     super.dispose();
+  }
+
+  void _loadData({String? query}) {
+    setState(() {
+      _coffeeData = _coffeeService.getCoffees(query: query);
+    });
   }
 
   void _onSearchChanged(String query) {
@@ -87,6 +85,7 @@ class _HomePageState extends State<HomePage> {
                         _buildFilterChips(),
                       ] else
                         const SizedBox(height: 24),
+
                       _buildProductGrid(),
                       const SizedBox(height: 24),
                     ],
@@ -112,12 +111,51 @@ class _HomePageState extends State<HomePage> {
             ),
           );
         }
-        if (snapshot.hasError)
-          return Center(child: Text("Error: ${snapshot.error}"));
-        if (!snapshot.hasData || snapshot.data!.isEmpty)
-          return const Center(child: Text("Menu tidak ditemukan."));
 
-        final coffees = snapshot.data!;
+        if (snapshot.hasError) {
+          return Center(child: Text("Error: \${snapshot.error}"));
+        }
+
+        if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return const Center(
+            child: Padding(
+              padding: EdgeInsets.all(32.0),
+              child: Text("Menu tidak ditemukan."),
+            ),
+          );
+        }
+
+        final List<Coffee> allCoffees = snapshot.data!;
+
+        final List<Coffee> filteredCoffees = allCoffees.where((item) {
+          if (_searchController.text.isNotEmpty) return true;
+
+          return item.category.toLowerCase() == _selectedFilter.toLowerCase();
+        }).toList();
+
+        // Cek jika hasil filter kosong
+        if (filteredCoffees.isEmpty) {
+          return Container(
+            padding: const EdgeInsets.all(32),
+            child: Center(
+              child: Column(
+                children: [
+                  Icon(
+                    Icons.fastfood_outlined,
+                    size: 50,
+                    color: kGreyColor.withOpacity(0.5),
+                  ),
+                  const SizedBox(height: 16),
+                  Text(
+                    "Belum ada menu di kategori $_selectedFilter",
+                    style: const TextStyle(color: kGreyColor),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+
         return GridView.builder(
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           shrinkWrap: true,
@@ -126,11 +164,11 @@ class _HomePageState extends State<HomePage> {
             crossAxisCount: 2,
             crossAxisSpacing: 16.0,
             mainAxisSpacing: 16.0,
-            childAspectRatio: 0.65,
+            childAspectRatio: 0.65, // Rasio ini penting agar tidak overflow
           ),
-          itemCount: coffees.length,
+          itemCount: filteredCoffees.length,
           itemBuilder: (context, index) {
-            return _buildProductCard(context, coffees[index]);
+            return _buildProductCard(context, filteredCoffees[index]);
           },
         );
       },
@@ -138,12 +176,11 @@ class _HomePageState extends State<HomePage> {
   }
 
   Widget _buildProductCard(BuildContext context, Coffee coffee) {
-    // Cek apakah item ini ada di daftar favorit (Data dari MainWrapper)
     final bool isFavorite = widget.favoriteItems.any(
       (item) => item.id == coffee.id,
     );
 
-return GestureDetector(
+    return GestureDetector(
       onTap: () {
         Navigator.push(
           context,
@@ -176,10 +213,11 @@ return GestureDetector(
                 errorBuilder: (ctx, err, _) => Container(
                   height: 120,
                   color: Colors.grey[200],
-                  child: const Icon(Icons.broken_image),
+                  child: const Icon(Icons.broken_image, color: Colors.grey),
                 ),
               ),
             ),
+
             Padding(
               padding: const EdgeInsets.fromLTRB(12, 12, 12, 4),
               child: Column(
@@ -204,13 +242,13 @@ return GestureDetector(
                 ],
               ),
             ),
+
             const Spacer(),
             Padding(
               padding: const EdgeInsets.fromLTRB(12, 0, 12, 12),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  // TOMBOL LOVE (Panggil fungsi dari MainWrapper)
                   InkWell(
                     onTap: () => widget.onToggleFavorite(coffee),
                     child: Icon(
@@ -219,7 +257,6 @@ return GestureDetector(
                       size: 24,
                     ),
                   ),
-                  // TOMBOL ADD (Panggil fungsi dari MainWrapper)
                   InkWell(
                     onTap: () {
                       widget.onAddToCart(coffee);
@@ -254,7 +291,6 @@ return GestureDetector(
     );
   }
 
-  // --- Widget Helper Lainnya (Copy Paste dari kode lama Anda) ---
   Widget _buildHeaderContent(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16.0),
@@ -293,6 +329,15 @@ return GestureDetector(
               hintText: "Cari kopi...",
               hintStyle: const TextStyle(color: kGreyColor),
               prefixIcon: const Icon(Icons.search, color: kGreyColor),
+              suffixIcon: _searchController.text.isNotEmpty
+                  ? IconButton(
+                      icon: const Icon(Icons.clear, color: kGreyColor),
+                      onPressed: () {
+                        _searchController.clear();
+                        _loadData();
+                      },
+                    )
+                  : null,
               filled: true,
               fillColor: kWhiteColor,
               border: OutlineInputBorder(
@@ -317,6 +362,14 @@ return GestureDetector(
           width: double.infinity,
           height: 125,
           fit: BoxFit.cover,
+          errorBuilder: (context, error, stackTrace) {
+            return Container(
+              height: 125,
+              width: double.infinity,
+              color: Colors.grey[300],
+              child: const Center(child: Text("Banner Area")),
+            );
+          },
         ),
       ),
     );
@@ -328,10 +381,27 @@ return GestureDetector(
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: ["Coffee", "Non Coffee", "Food"].map((label) {
-          return ChoiceChip(
-            label: Text(label),
-            selected: label == "Coffee",
-            selectedColor: kPrimaryGreen,
+          final isSelected = label == _selectedFilter;
+          return Expanded(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
+              child: ChoiceChip(
+                label: Text(label),
+                selected: isSelected,
+                selectedColor: kPrimaryGreen,
+                backgroundColor: kWhiteColor,
+                labelStyle: TextStyle(
+                  color: isSelected ? kWhiteColor : Colors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+                showCheckmark: false, // <--- TAMBAHKAN INI UNTUK HAPUS CENTANG
+                onSelected: (val) {
+                  setState(() {
+                    _selectedFilter = label;
+                  });
+                },
+              ),
+            ),
           );
         }).toList(),
       ),

@@ -8,7 +8,6 @@ const Color kGreyColor = Color(0xFF808080);
 
 class DetailPage extends StatefulWidget {
   final Coffee coffee;
-  // Kita terima status awal dan fungsi dari halaman sebelumnya
   final bool initialIsFavorite;
   final VoidCallback onToggleFavorite;
   final VoidCallback onAddToCart;
@@ -16,7 +15,7 @@ class DetailPage extends StatefulWidget {
   const DetailPage({
     Key? key,
     required this.coffee,
-    this.initialIsFavorite = false, // Default false jika tidak dikirim
+    this.initialIsFavorite = false,
     required this.onToggleFavorite,
     required this.onAddToCart,
   }) : super(key: key);
@@ -26,7 +25,6 @@ class DetailPage extends StatefulWidget {
 }
 
 class _DetailPageState extends State<DetailPage> {
-  // State lokal untuk mengubah warna ikon secara instan
   late bool isFavorite;
 
   @override
@@ -42,25 +40,30 @@ class _DetailPageState extends State<DetailPage> {
       appBar: AppBar(
         title: Text(
           "Detail Menu",
-          style: GoogleFonts.sora(fontWeight: FontWeight.bold, color: Colors.black),
+          style: GoogleFonts.sora(
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
         ),
         centerTitle: true,
         backgroundColor: Colors.white,
         elevation: 0,
         iconTheme: const IconThemeData(color: Colors.black),
         actions: [
-          // --- IKON LOVE (FAVORITE) ---
           IconButton(
             onPressed: () {
               setState(() {
-                isFavorite = !isFavorite; // Ubah tampilan lokal
+                isFavorite = !isFavorite;
               });
-              widget.onToggleFavorite(); // Panggil fungsi ubah data di pusat
-              
-              // Tampilkan notifikasi kecil
+              widget.onToggleFavorite();
+
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
-                  content: Text(isFavorite ? "Ditambahkan ke Favorit" : "Dihapus dari Favorit"),
+                  content: Text(
+                    isFavorite
+                        ? "Ditambahkan ke Favorit"
+                        : "Dihapus dari Favorit",
+                  ),
                   duration: const Duration(seconds: 1),
                   backgroundColor: isFavorite ? Colors.red : Colors.grey,
                 ),
@@ -91,7 +94,11 @@ class _DetailPageState extends State<DetailPage> {
                     errorBuilder: (ctx, err, _) => Container(
                       height: 300,
                       color: Colors.grey[200],
-                      child: const Icon(Icons.broken_image, size: 80, color: Colors.grey),
+                      child: const Icon(
+                        Icons.broken_image,
+                        size: 80,
+                        color: Colors.grey,
+                      ),
                     ),
                   ),
 
@@ -152,7 +159,6 @@ class _DetailPageState extends State<DetailPage> {
             ),
           ),
 
-          // --- TOMBOL TAMBAH KE KERANJANG (Sticky di Bawah) ---
           Container(
             padding: const EdgeInsets.all(24.0),
             decoration: BoxDecoration(
@@ -170,11 +176,13 @@ class _DetailPageState extends State<DetailPage> {
               height: 55,
               child: ElevatedButton(
                 onPressed: () {
-                  widget.onAddToCart(); // Panggil fungsi tambah ke keranjang
-                  
+                  widget.onAddToCart();
+
                   ScaffoldMessenger.of(context).showSnackBar(
                     SnackBar(
-                      content: Text("${widget.coffee.name} ditambahkan ke keranjang!"),
+                      content: Text(
+                        "${widget.coffee.name} ditambahkan ke keranjang!",
+                      ),
                       backgroundColor: kPrimaryGreen,
                       duration: const Duration(seconds: 2),
                     ),

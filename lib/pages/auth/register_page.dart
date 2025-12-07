@@ -1,36 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../../services/auth_service.dart';
-import '../../models/user_model.dart';
-import '../customer/main_wrapper.dart';
-import '../admin/admin_dashboard.dart';
-import 'register_page.dart';
 
 const Color kPrimaryGreen = Color(0xFF1BAE76);
-const Color kScaffoldBackground = Color(0xFFEFEFEF);
 const Color kWhiteColor = Color(0xFFFFFFFF);
 const Color kGreyColor = Color(0xFF808080);
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({Key? key}) : super(key: key);
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({Key? key}) : super(key: key);
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
+  final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passController = TextEditingController();
-  final AuthService _authService = AuthService();
-  bool _isLoading = false;
 
+  final AuthService _authService = AuthService();
+
+  bool _isLoading = false;
   bool _isObscure = true;
 
-  void _handleLogin() async {
-    if (_emailController.text.isEmpty || _passController.text.isEmpty) {
+  void _handleRegister() async {
+    if (_nameController.text.isEmpty ||
+        _emailController.text.isEmpty ||
+        _passController.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text("Email dan Password harus diisi"),
+          content: Text("Semua kolom harus diisi!"),
           backgroundColor: Colors.red,
         ),
       );
@@ -39,29 +38,29 @@ class _LoginPageState extends State<LoginPage> {
 
     setState(() => _isLoading = true);
 
-    User? user = await _authService.login(
+    bool success = await _authService.register(
+      _nameController.text,
       _emailController.text,
       _passController.text,
     );
 
-    if (mounted) {
-      setState(() => _isLoading = false);
-      if (user != null) {
-        if (user.role == 'admin') {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => const AdminDashboard()),
-          );
-        } else {
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(builder: (_) => MainWrapper(user: user)),
-          );
-        }
-      } else {
+    setState(() => _isLoading = false);
+
+    if (success) {
+      if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text("Email atau Password salah!"),
+            content: Text("Registrasi Berhasil! Silakan Login."),
+            backgroundColor: kPrimaryGreen,
+          ),
+        );
+        Navigator.pop(context);
+      }
+    } else {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text("Gagal Daftar (Email mungkin sudah dipakai)"),
             backgroundColor: Colors.red,
           ),
         );
@@ -79,8 +78,9 @@ class _LoginPageState extends State<LoginPage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Icon(Icons.coffee_rounded, size: 80, color: kWhiteColor),
+              const Icon(Icons.person_add, size: 80, color: kWhiteColor),
               const SizedBox(height: 24),
+
               Card(
                 color: kWhiteColor,
                 elevation: 4,
@@ -93,7 +93,7 @@ class _LoginPageState extends State<LoginPage> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Text(
-                        "GREEN CAFE",
+                        "DAFTAR AKUN",
                         style: GoogleFonts.sora(
                           fontSize: 24,
                           fontWeight: FontWeight.bold,
@@ -102,14 +102,28 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        "Silakan masuk untuk melanjutkan",
+                        "Buat akun baru Green Cafe",
                         style: GoogleFonts.poppins(
                           color: kGreyColor,
                           fontSize: 14,
                         ),
-                        textAlign: TextAlign.center,
                       ),
                       const SizedBox(height: 32),
+
+                      TextField(
+                        controller: _nameController,
+                        decoration: InputDecoration(
+                          labelText: "Nama Lengkap",
+                          prefixIcon: const Icon(
+                            Icons.person,
+                            color: kPrimaryGreen,
+                          ),
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
 
                       TextField(
                         controller: _emailController,
@@ -142,8 +156,11 @@ class _LoginPageState extends State<LoginPage> {
                                   : Icons.visibility,
                               color: kGreyColor,
                             ),
-                            onPressed: () =>
-                                setState(() => _isObscure = !_isObscure),
+                            onPressed: () {
+                              setState(() {
+                                _isObscure = !_isObscure;
+                              });
+                            },
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
@@ -162,13 +179,13 @@ class _LoginPageState extends State<LoginPage> {
                               borderRadius: BorderRadius.circular(12),
                             ),
                           ),
-                          onPressed: _isLoading ? null : _handleLogin,
+                          onPressed: _isLoading ? null : _handleRegister,
                           child: _isLoading
                               ? const CircularProgressIndicator(
                                   color: kWhiteColor,
                                 )
                               : Text(
-                                  "LOGIN",
+                                  "DAFTAR",
                                   style: GoogleFonts.sora(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
@@ -179,18 +196,11 @@ class _LoginPageState extends State<LoginPage> {
                       ),
 
                       const SizedBox(height: 16),
-                      // LINK KE REGISTER PAGE
+                      // Tombol Kembali ke Login
                       TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => const RegisterPage(),
-                            ),
-                          );
-                        },
+                        onPressed: () => Navigator.pop(context),
                         child: Text(
-                          "Belum punya akun? Daftar",
+                          "Sudah punya akun? Login",
                           style: TextStyle(color: kPrimaryGreen),
                         ),
                       ),

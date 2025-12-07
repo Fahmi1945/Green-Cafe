@@ -4,10 +4,8 @@ import 'package:http/http.dart' as http;
 import 'package:google_fonts/google_fonts.dart';
 import '../../models/coffee_model.dart';
 import '../auth/login_page.dart';
-import 'add_edit_product.dart'; // Halaman Form (Langkah berikutnya)
-// Ensure that AddEditProductPage is defined in add_edit_product.dart
+import 'add_edit_product.dart';
 
-// --- Konstanta Warna (Sesuai main.dart) ---
 const Color kPrimaryGreen = Color(0xFF1BAE76);
 const Color kScaffoldBackground = Color(0xFFEFEFEF);
 const Color kWhiteColor = Color(0xFFFFFFFF);
@@ -22,7 +20,6 @@ class AdminDashboard extends StatefulWidget {
 }
 
 class _AdminDashboardState extends State<AdminDashboard> {
-  // GANTI DENGAN URL MOCKAPI 'COFFEE' ANDA
   final String apiUrl = "https://68fe947f7c700772bb1408b8.mockapi.io/coffee";
   late Future<List<Coffee>> _coffeeData;
 
@@ -49,35 +46,60 @@ class _AdminDashboardState extends State<AdminDashboard> {
   }
 
   Future<void> _deleteCoffee(String id) async {
-    bool confirm = await showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text("Hapus Produk", style: GoogleFonts.sora(fontWeight: FontWeight.bold)),
-        content: Text("Yakin ingin menghapus kopi ini?", style: GoogleFonts.poppins()),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context, false),
-            child: Text("Batal", style: GoogleFonts.poppins(color: kGreyColor)),
+    bool confirm =
+        await showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: Text(
+              "Hapus Produk",
+              style: GoogleFonts.sora(fontWeight: FontWeight.bold),
+            ),
+            content: Text(
+              "Yakin ingin menghapus kopi ini?",
+              style: GoogleFonts.poppins(),
+            ),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            actions: [
+              TextButton(
+                onPressed: () => Navigator.pop(context, false),
+                child: Text(
+                  "Batal",
+                  style: GoogleFonts.poppins(color: kGreyColor),
+                ),
+              ),
+              TextButton(
+                onPressed: () => Navigator.pop(context, true),
+                child: Text(
+                  "Hapus",
+                  style: GoogleFonts.poppins(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
           ),
-          TextButton(
-            onPressed: () => Navigator.pop(context, true),
-            child: Text("Hapus", style: GoogleFonts.poppins(color: Colors.red, fontWeight: FontWeight.bold)),
-          ),
-        ],
-      ),
-    ) ?? false;
+        ) ??
+        false;
 
     if (confirm) {
       final response = await http.delete(Uri.parse('$apiUrl/$id'));
       if (response.statusCode == 200) {
         _refreshData();
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Produk berhasil dihapus"), backgroundColor: kPrimaryGreen),
+          const SnackBar(
+            content: Text("Produk berhasil dihapus"),
+            backgroundColor: kPrimaryGreen,
+          ),
         );
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("Gagal menghapus produk"), backgroundColor: Colors.red),
+          const SnackBar(
+            content: Text("Gagal menghapus produk"),
+            backgroundColor: Colors.red,
+          ),
         );
       }
     }
@@ -87,12 +109,14 @@ class _AdminDashboardState extends State<AdminDashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kScaffoldBackground,
-      // AppBar Hijau Konsisten
       appBar: AppBar(
         backgroundColor: kPrimaryGreen,
         title: Text(
           "Admin Dashboard",
-          style: GoogleFonts.sora(color: kWhiteColor, fontWeight: FontWeight.bold),
+          style: GoogleFonts.sora(
+            color: kWhiteColor,
+            fontWeight: FontWeight.bold,
+          ),
         ),
         actions: [
           IconButton(
@@ -107,8 +131,7 @@ class _AdminDashboardState extends State<AdminDashboard> {
           ),
         ],
       ),
-      
-      // Floating Action Button (FAB) Hijau
+
       floatingActionButton: FloatingActionButton(
         backgroundColor: kPrimaryGreen,
         child: const Icon(Icons.add, color: kWhiteColor),
@@ -120,25 +143,34 @@ class _AdminDashboardState extends State<AdminDashboard> {
           if (result == true) _refreshData();
         },
       ),
-      
+
       body: FutureBuilder<List<Coffee>>(
         future: _coffeeData,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator(color: kPrimaryGreen));
+            return const Center(
+              child: CircularProgressIndicator(color: kPrimaryGreen),
+            );
           }
           if (snapshot.hasError) {
-            return Center(child: Text("Error: ${snapshot.error}", style: GoogleFonts.poppins()));
+            return Center(
+              child: Text(
+                "Error: ${snapshot.error}",
+                style: GoogleFonts.poppins(),
+              ),
+            );
           }
           if (!snapshot.hasData || snapshot.data!.isEmpty) {
-            return Center(child: Text("Belum ada data kopi.", style: GoogleFonts.poppins()));
+            return Center(
+              child: Text("Belum ada data kopi.", style: GoogleFonts.poppins()),
+            );
           }
 
           final coffees = snapshot.data!;
           return ListView.separated(
             padding: const EdgeInsets.all(16),
             itemCount: coffees.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 12), // Jarak antar kartu
+            separatorBuilder: (context, index) => const SizedBox(height: 12),
             itemBuilder: (context, index) {
               final coffee = coffees[index];
               return _buildAdminCard(coffee);
@@ -149,7 +181,6 @@ class _AdminDashboardState extends State<AdminDashboard> {
     );
   }
 
-  // --- Widget Kartu Admin (Desain Baru) ---
   Widget _buildAdminCard(Coffee coffee) {
     return Container(
       decoration: BoxDecoration(
@@ -174,7 +205,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
             height: 60,
             fit: BoxFit.cover,
             errorBuilder: (ctx, err, _) => Container(
-              width: 60, height: 60, color: Colors.grey[200], child: const Icon(Icons.broken_image, color: Colors.grey)
+              width: 60,
+              height: 60,
+              color: Colors.grey[200],
+              child: const Icon(Icons.broken_image, color: Colors.grey),
             ),
           ),
         ),
@@ -185,7 +219,10 @@ class _AdminDashboardState extends State<AdminDashboard> {
         ),
         subtitle: Text(
           "Rp ${coffee.price.toStringAsFixed(0)}",
-          style: GoogleFonts.poppins(color: kPrimaryGreen, fontWeight: FontWeight.w600),
+          style: GoogleFonts.poppins(
+            color: kPrimaryGreen,
+            fontWeight: FontWeight.w600,
+          ),
         ),
         // Tombol Aksi (Edit & Hapus)
         trailing: Row(
@@ -196,7 +233,9 @@ class _AdminDashboardState extends State<AdminDashboard> {
               onPressed: () async {
                 final result = await Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => AddEditProductPage(coffee: coffee)),
+                  MaterialPageRoute(
+                    builder: (context) => AddEditProductPage(coffee: coffee),
+                  ),
                 );
                 if (result == true) _refreshData();
               },
