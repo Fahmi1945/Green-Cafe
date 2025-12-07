@@ -1,20 +1,20 @@
-# ☕ Green Cafe - Coffee Shop Mobile App
+# Green Cafe - Coffee Shop Mobile App
 
 ![Flutter](https://img.shields.io/badge/Flutter-02569B?style=for-the-badge&logo=flutter&logoColor=white)
 ![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
 
 Green Cafe adalah aplikasi mobile untuk pemesanan kopi yang dibangun menggunakan Flutter. Aplikasi ini menyediakan pengalaman pengguna yang seamless untuk menjelajahi menu, menambahkan ke favorit, dan melakukan pemesanan kopi dengan mudah.
 
-## 📱 Screenshots
+## Screenshots
 
 <div align="center">
   <img src="assets/screenshoots/login.png" alt="Login Screen" width="250"/>
   <img src="assets/screenshoots/home.png" alt="Home Screen" width="250"/>
 </div>
 
-## ✨ Fitur
+## Fitur
 
-### 👤 Untuk Customer
+### Untuk Customer
 
 - **Onboarding** - Tampilan awal yang menarik untuk pengguna baru
 - **Authentication** - Login dan Register dengan validasi
@@ -26,13 +26,13 @@ Green Cafe adalah aplikasi mobile untuk pemesanan kopi yang dibangun menggunakan
 - **Checkout** - Proses pemesanan yang mudah
 - **Profil** - Lihat informasi akun pengguna
 
-### 👨‍💼 Untuk Admin
+### Untuk Admin
 
 - **Dashboard Admin** - Kelola semua produk kopi
 - **CRUD Produk** - Tambah, Edit, dan Hapus produk
 - **Manajemen Menu** - Update informasi produk secara real-time
 
-## 🛠️ Teknologi
+## Teknologi
 
 - **Framework**: Flutter 3.9.0
 - **Bahasa**: Dart
@@ -41,7 +41,7 @@ Green Cafe adalah aplikasi mobile untuk pemesanan kopi yang dibangun menggunakan
 - **Typography**: Google Fonts (Sora & Poppins)
 - **Backend**: MockAPI.io
 
-## 📦 Dependencies
+## Dependencies
 
 ```yaml
 dependencies:
@@ -52,7 +52,7 @@ dependencies:
   cupertino_icons: ^1.0.8
 ```
 
-## 🚀 Instalasi
+## Instalasi
 
 ### Prasyarat
 
@@ -80,7 +80,7 @@ dependencies:
    flutter run
    ```
 
-## 🔧 Konfigurasi API
+## Konfigurasi API
 
 Aplikasi ini menggunakan MockAPI untuk backend. URL API sudah dikonfigurasi di:
 
@@ -98,7 +98,7 @@ https://68fe947f7c700772bb1408b8.mockapi.io/user
 https://68fe947f7c700772bb1408b8.mockapi.io/coffee
 ```
 
-## 📂 Struktur Projekt
+## Struktur Projekt
 
 ```
 lib/
@@ -131,7 +131,7 @@ lib/
     └── product_card.dart
 ```
 
-## 🎨 Design System
+## Design System
 
 ### Color Palette
 
@@ -146,7 +146,7 @@ lib/
 - **Headings**: Sora (Bold & Semi-Bold)
 - **Body Text**: Poppins (Regular & Medium)
 
-## 👥 User Roles
+## User Roles
 
 ### Customer
 
@@ -158,14 +158,14 @@ lib/
 - Email: `admin@test.com`
 - Password: `admin123`
 
-## 🔐 Fitur Keamanan
+## Fitur Keamanan
 
 - Password toggle visibility
 - Form validation
 - Email uniqueness check
 - Role-based access control
 
-## 📱 Responsive Design
+## Responsive Design
 
 Aplikasi ini didesain untuk berbagai ukuran layar:
 
@@ -173,7 +173,7 @@ Aplikasi ini didesain untuk berbagai ukuran layar:
 - Tablet
 - Foldable devices
 
-## 🧪 Testing
+## Testing
 
 ```bash
 # Run tests
@@ -183,7 +183,7 @@ flutter test
 flutter test --coverage
 ```
 
-## 📝 API Structure
+## API Structure
 
 ### User Model
 
@@ -210,7 +210,7 @@ flutter test --coverage
 }
 ```
 
-## 🤝 Kontribusi
+## Kontribusi
 
 Contributions are welcome! Silakan buat pull request atau buka issue untuk saran dan perbaikan.
 
@@ -220,28 +220,28 @@ Contributions are welcome! Silakan buat pull request atau buka issue untuk saran
 4. Push ke branch (`git push origin feature/AmazingFeature`)
 5. Buat Pull Request
 
-## 📄 License
+## License
 
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-## 👨‍💻 Developer
+## Developer
 
 **Fahmi**
 
 - GitHub: [@Fahmi1945](https://github.com/Fahmi1945)
 - Repository: [Green-Cafe](https://github.com/Fahmi1945/Green-Cafe)
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - Flutter Team untuk framework yang luar biasa
 - MockAPI.io untuk REST API gratis
 - Unsplash untuk stock images
 - Google Fonts untuk typography
 
-## 📞 Support
+## Support
 
 Jika Anda memiliki pertanyaan atau butuh bantuan, silakan buka issue di GitHub repository.
 
 ---
 
-⭐ Jangan lupa untuk memberikan star jika project ini membantu Anda!
+Jangan lupa untuk memberikan star jika project ini membantu Anda!
