@@ -17,11 +17,12 @@ class Coffee {
 
   factory Coffee.fromJson(Map<String, dynamic> json) {
     return Coffee(
-      id: json['id'],
-      name: json['name'],
-      price: double.parse(json['price'].toString()),
-      imageUrl: json['imageUrl'],
-      description: json['description'],
+      id: json['id']?.toString() ?? '',
+      name: json['name']?.toString() ?? 'Unnamed Product',
+      price: double.tryParse(json['price']?.toString() ?? '0') ?? 0.0,
+      imageUrl: json['imageUrl']?.toString() ?? '',
+      description:
+          json['description']?.toString() ?? 'No description available',
       category: json['category']?.toString() ?? 'Coffee',
     );
   }

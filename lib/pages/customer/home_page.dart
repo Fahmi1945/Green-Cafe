@@ -394,7 +394,7 @@ class _HomePageState extends State<HomePage> {
                   color: isSelected ? kWhiteColor : Colors.black,
                   fontWeight: FontWeight.bold,
                 ),
-                showCheckmark: false, // <--- TAMBAHKAN INI UNTUK HAPUS CENTANG
+                showCheckmark: false,
                 onSelected: (val) {
                   setState(() {
                     _selectedFilter = label;
